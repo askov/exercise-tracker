@@ -1,0 +1,39 @@
+{
+  "name": "exercise-tracker",
+  "version": "1.0.0",
+  "description": "Freecodecamp API project: Exercise-tracker",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon ./server.js localhost 3000",
+    "start": "node server.js",
+    "test": "mocha --timeout 10000 --require mocha.env.js",
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha --timeout 10000 --require mocha.env.js test/index.js"
+  },
+  "author": "Aleksandr Askov",
+  "keywords": [
+    "freecodecamp",
+    "api projects",
+    "exercise tracker"
+  ],
+  "repository": {
+    "url": "https://github.com/askov/exercise-tracker"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "base-64": "^0.1.0",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "mongodb": "^3.1.0",
+    "mongoose": "^5.1.7",
+    "pug": "^2.0.3"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "chai-json-schema": "^1.5.0",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.17.5",
+    "sinon": "^6.1.0"
+  }
+}

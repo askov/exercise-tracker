@@ -46,30 +46,48 @@ a[href*=github] {
   background-position: left 1em center;
 }
 
-.new-url-form {
+.standard-form {
   display: flex;
   justify-content: center;
+  justify-content: flex-end;
   position: relative;
   padding-bottom: 2em;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  margin: 0 auto;
 }
 
-.new-url-form input[type="text"] {
+.standard-form input[type="text"] {
   background-color: #fafafa;
   border: 1px solid #969696;
   padding: 0.5em 1em;
+  width: 50px;
+  flex-grow: 1;
 }
 
-.new-url-form button[type="submit"] {
+.standard-form button[type="submit"] {
   cursor: pointer;
-  /* background-color: red; */
   border: 1px solid #969696;
-  border-left: none;
   padding: 0.5em 1em;
+  margin-top: 1em;
 }
 
-.new-url-form button[type="submit"]:hover {
+.standard-form button[type="submit"]:hover {
   background-color: #969696;
   color: white;
+}
+
+.standard-form > label > span {
+  display: inline-block;
+  width: 110px;
+  flex-shrink: 0;
+}
+
+.standard-form > label {
+  margin-bottom: 0.5em;
+  display: flex;
+  align-items: center;
 }
 
 .error-container {
@@ -86,4 +104,9 @@ a[href*=github] {
   border-color: #cc0000 !important;
   box-shadow: 0 0 3px #cc0000;
   outline: none;
+}
+
+.asterisk {
+  color: #f46141;
+  font-size: larger;
 }

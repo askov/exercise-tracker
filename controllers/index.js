@@ -1,65 +1,53 @@
 const express = require('express'),
   router = express.Router(),
-  base64 = require('base-64'),
-  shortUrl = require('../models/shortUrl'),
-  parseUrl = require('../middlewares/parseUrl'),
-  lookupUrl = require('../middlewares/lookupUrl');
+  user = require('../models/user');
 
 /**
- * POST: Creates new short url for provided url
- * if provided url isn't correct, returns error
+ * POST: Creates new uniq user by name
  */
-router.post('/api/shorturl/new', parseUrl, lookupUrl, (req, res) => {
-  const errRes = {
-    error: 'invalid URL'
-  };
-  if (!req.correctUrl) {
-    res.status(400).json(errRes);
-    return;
-  }
+router.post('/api/exercise/new-user', (req, res) => {
   const cb = (err, data) => {
     if (err) {
-      return res.status(400).json(errRes);
+      return res.status(400).json({ error: 'user already exists' });
     }
     res.json({
-      original_url: req.body.url,
-      short_url: base64.encode(data.shortUrl),
+      userId: data['_id'],
+      name: data.name
     });
   };
-  shortUrl.save(req.body.url, cb);
+  user.save(req.body.name, cb);
 });
 
 /**
- * GET: Redirects with short url to the corresponding url.
- * Redirects to index page if short url is not presented
+ * POST: Adds new exercise to user exercise collection by user id
+ * returns last created exercise
  */
-router.get('/api/shorturl/:url', (req, res) => {
+router.post('/api/exercise/add', (req, res) => {
   const cb = (err, data) => {
     if (err) {
-      return res.redirect('/');
+      return res.status(400).json({ error: err });
     }
-    let url = data.url;
-    if (!/^https?:\/\//.test(data.url)) {
-      url = 'https://' + url;
-    }
-    res.redirect(url);
+    const tmp = data.exercises[0];
+    res.json({
+      date: tmp.date,
+      duration: tmp.duration,
+      description: tmp.description
+    });
   };
-  shortUrl.find(req.params.url, cb)
+  const obj = {
+    userId: req.body.userId,
+    description: req.body.description,
+    duration: req.body.duration,
+    date: req.body.date,
+  };
+  user.addExercise(obj, cb);
 });
 
 /**
- * GET: Index page. Provides info about last shortened urls
+ * GET: Index page.
  */
 router.get('/', (req, res) => {
-  const cb = (err, data) => {
-    const last = data || [];
-    const examples = last.map(el => `${process.env.HOST}/api/shorturl/${base64.encode(el.shortUrl)}`);
-    res.render('index', {
-      examples,
-      examplesQty: examples.length
-    });
-  };
-  shortUrl.last(cb);
+  res.render('index', {});
 });
 
 

@@ -21,26 +21,26 @@ html(lang="en")
         li I can post new exercise by <code>POST /api/exercise/add</code> with user_id*, description*, duration*, date (* - required fields). Response example: <code>{"username":"mike","description":"jumping","duration":10,"_id":"By_WdXGX7","date":"Thu Jan 01 2018"}</code>, error: <code>{"error": "wrong user_id"}</code>
         li I can get users's excercise log by <code>GET /api/exercise/log?{userId}[&from][&to][&limit]</code> ( <strong>{ }</strong> = required, <strong>[ ]</strong> = optional, <strong>from</strong>, <strong>to</strong> = dates (yyyy-mm-dd); <strong>limit</strong> = number)
       h2 Create new user
-      form(method="post" action="/api/exercise/new-user" onsubmit="return validateForm()").standard-form
+      form(method="post" action="/api/exercise/new-user" id="js-new-user-form" onsubmit="return newUserForm.validate()").standard-form
         label
           span Username #[span(title="Required").asterisk *]
-          input(type="text" placeholder="username" name="username")
+          input(type="text" placeholder="name" name="name" autocomplete="off")
         button(type="submit") Create
         .error-container
       h2 Add exercises
-      form(method="post" action="/api/exercise/add" onsubmit="return validateForm()").standard-form
+      form(method="post" action="/api/exercise/add" id="js-new-exercise-form" onsubmit="").standard-form
         label
           span User id #[span(title="Required").asterisk *]
-          input(type="text" placeholder="User ID" name="userid" required)
+          input(type="text" placeholder="User ID" name="userid" autocomplete="off" required)
         label
           span Description #[span(title="Required").asterisk *]
-          input(type="text" placeholder="Exercise description" name="description" required)
+          input(type="text" placeholder="Exercise description" name="description" autocomplete="off" required)
         label
           span Duration #[span(title="Required").asterisk *]
-          input(type="text" placeholder="Minutes" name="duration" required)
+          input(type="text" placeholder="Minutes" name="duration" autocomplete="off" required)
         label
           span Date
-          input(type="text" placeholder="YYYY-MM-DD" name="date")
+          input(type="text" placeholder="YYYY-MM-DD" autocomplete="off" name="date")
         button(type="submit") Create
         .error-container
       h2 Last added exercises (#{examplesQty}):

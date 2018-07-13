@@ -23,24 +23,25 @@ router.post('/api/exercise/new-user', (req, res) => {
  * returns last created exercise
  */
 router.post('/api/exercise/add', (req, res) => {
-  const cb = (err, data) => {
-    if (err) {
-      return res.status(400).json({ error: err });
-    }
-    const tmp = data.exercises[0];
-    res.json({
-      date: tmp.date,
-      duration: tmp.duration,
-      description: tmp.description
-    });
-  };
-  const obj = {
-    userId: req.body.userId,
-    description: req.body.description,
-    duration: req.body.duration,
-    date: req.body.date,
-  };
-  user.addExercise(obj, cb);
+  // const cb = (err, data) => {
+  //   if (err) {
+  //     return res.status(400).json({ error: err });
+  //   }
+  //   const tmp = data.exercises[0];
+  //   res.json({
+  //     date: tmp.date,
+  //     duration: tmp.duration,
+  //     description: tmp.description
+  //   });
+  // };
+  // const obj = {
+  //   userId: req.body.userId,
+  //   description: req.body.description,
+  //   duration: req.body.duration,
+  //   date: req.body.date,
+  // };
+  // user.addExercise(obj, cb);
+  res.status(200);
 });
 
 /**

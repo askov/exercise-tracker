@@ -1,6 +1,6 @@
 let chai = require('chai'),
-  expect = chai.expect;
-const dbsetup = require('../../db');
+  expect = chai.expect,
+  dbsetup = require('../../db');
 
 chai.use(require('chai-http'));
 chai.use(require('chai-json-schema'));

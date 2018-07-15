@@ -13,6 +13,7 @@ module.exports = function (data, from, to, limit) {
   }
 
   return data.filter(el => {
+    // console.log('LIM', typeof el.date);
     return (el.date >= fromDate) && (el.date <= toDate);
   }).splice(0, lim);
 };

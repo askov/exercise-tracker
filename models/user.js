@@ -1,7 +1,9 @@
 const mongoose = require('mongoose'),
+  Schema = mongoose.Schema,
+  exerciseFilter = require('../helpers/exerciseFilter'),
   excercise = require('./exercise');
 
-const userSchema = mongoose.Schema({
+const userSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -34,10 +36,21 @@ module.exports.addExercise = function (obj, cb) {
         date: obj.date,
       }
     }
-  }, {
+  },
+    {
       new: true,
-    }).select({ exercises: { $slice: -1 }, _id: 0, name: 0 }).exec(function (err, data) {
+      runValidators: true
+    }).select({ exercises: { $slice: -1 }, _id: 0, name: 0 })
+    .exec(function (err, data) {
       if (err) return cb(err);
+      if (!data) return cb(new Error('user not found'));
       cb(null, data);
     })
+};
+
+module.exports.log = function (obj, cb) {
+  User.findById(obj.userId).exec(function (err, data) {
+    if (err) return cb(err);
+    cb(null, exerciseFilter(data.exercises, obj.from, obj.to, obj.limit));
+  });
 };

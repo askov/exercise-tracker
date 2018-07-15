@@ -36,16 +36,11 @@ module.exports.addExercise = function (obj, cb) {
         date: obj.date,
       }
     }
-  },
-    {
-      new: true,
-      runValidators: true
-    }).select({ exercises: { $slice: -1 }, _id: 0, name: 0 })
-    .exec(function (err, data) {
-      if (err) return cb(err);
-      if (!data) return cb(new Error('user not found'));
-      cb(null, data);
-    })
+  }, { new: true, runValidators: true }).select({ exercises: { $slice: -1 }, _id: 0, name: 0 }).exec(function (err, data) {
+    if (err) return cb(err);
+    if (!data) return cb(new Error('user not found'));
+    cb(null, data);
+  });
 };
 
 module.exports.log = function (obj, cb) {

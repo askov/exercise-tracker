@@ -25,10 +25,8 @@ router.post('/api/exercise/new-user', (req, res) => {
 router.post('/api/exercise/add', (req, res) => {
   const cb = (err, data) => {
     if (err) {
-      console.log('ERROR', err.message);
       return res.status(400).json({ error: err.message });
     }
-    console.log('DATA', data);
     const tmp = data.exercises[0];
     res.json({
       date: tmp.date,
@@ -60,12 +58,11 @@ router.get('/api/exercise/log', (req, res) => {
   if (!req.query.userId) {
     return res.status(400).json({ error: 'userId is required' });
   }
-  // console.log('XXXXXXX', req.query);
   const cb = (err, data) => {
     if (err) {
       return res.status(400).json({ error: err });
     }
-    res.json({ some: data });
+    res.json(data);
   };
   user.log(req.query, cb);
 });

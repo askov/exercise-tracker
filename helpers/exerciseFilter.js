@@ -1,4 +1,6 @@
 module.exports = function (data, from, to, limit) {
+  if (!Array.isArray(data)) return null;
+
   let fromDate = new Date(-8640000000000000);
   let toDate = new Date(8640000000000000);
   let lim = parseInt(limit) || data.length;
@@ -13,4 +15,4 @@ module.exports = function (data, from, to, limit) {
   return data.filter(el => {
     return (el.date >= fromDate) && (el.date <= toDate);
   }).splice(0, lim);
-}
+};

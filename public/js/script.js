@@ -3,7 +3,7 @@
 var newUserForm;
 var newExerciseForm;
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', function () {
   // Form #0
   newUserForm = (function () {
     var err = document.querySelector('#js-new-user-form .error-container');
@@ -58,7 +58,7 @@ Form.prototype.initInputEvents = function (input) {
   var form = this;
   input.oninput = function () {
     form.validate();
-  }
+  };
 };
 Form.prototype.updateErrorDisplay = function () {
   this.errorContainer.innerHTML = this.errors[0] || '';

@@ -22,62 +22,104 @@ describe('Controllers: Integration tests (db required)', () => {
         done();
       });
   });
-  let resSuccessSchema = {
+
+  let resUserSchema = {
     type: 'object',
-    required: ['original_url', 'short_url'],
+    required: ['name', 'userId'],
     properties: {
-      original_url: {
+      name: {
         type: 'string'
       },
-      short_url: {
+      userId: {
         type: 'string'
       }
     }
   };
-  it('should create short url for correct url /POST', done => {
+
+  let resExerciseSchema = {
+    type: 'object',
+    required: ['description', 'duration', 'date'],
+    properties: {
+      description: {
+        type: 'string'
+      },
+      duration: {
+        type: 'number'
+      },
+      date: {
+        type: 'string'
+      }
+    }
+  };
+
+  let resExerciseLogSchema = {
+    type: 'array',
+    items: {
+      type: 'object',
+      required: ['description', 'duration', 'date', '_id'],
+      properties: {
+        description: {
+          type: 'string'
+        },
+        duration: {
+          type: 'number'
+        },
+        date: {
+          type: 'string'
+        },
+        _id: {
+          type: 'string'
+        }
+      }
+    }
+  };
+
+  let testUserId;
+
+  it('should create new user /POST', done => {
     chai.request(server)
-      .post('/api/shorturl/new')
+      .post('/api/exercise/new-user')
       .type('json')
       .send({
-        url: 'mail.ru'
+        name: 'Sam'
       })
       .end((err, res) => {
+        testUserId = res.body.userId;
         expect(err).to.be.null;
         expect(res).to.have.status(200);
-        expect(res.body).to.be.jsonSchema(resSuccessSchema);
+        expect(res.body).to.be.jsonSchema(resUserSchema);
         done();
       });
   });
-  it('should return error when incorrect url provided /POST ', done => {
+
+  it('should add new exercise by user id /POST ', done => {
+    const obj = {
+      userId: testUserId,
+      description: 'exercise description',
+      duration: 25,
+    };
     chai.request(server)
-      .post('/api/shorturl/new')
+      .post('/api/exercise/add')
       .type('json')
-      .send({
-        url: 'mailru'
-      })
+      .send(obj)
       .end((err, res) => {
-        expect(res).to.have.status(400);
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.jsonSchema(resExerciseSchema);
         done();
       });
   });
-  it('should redirect with existing short url /GET ', done => {
+
+  it('should log user exercises /GET ', done => {
     chai.request(server)
-      .get('/api/shorturl/1')
+      .get('/api/exercise/log?userId=' + testUserId)
       .end((err, res) => {
-        expect(err).to.be.null;
-        expect(res).to.redirect;
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('array');
+        expect(res.body).to.be.jsonSchema(resExerciseLogSchema);
         done();
       });
   });
-  it('should redirect to home page with nonexisting short url /GET ', done => {
-    chai.request(server)
-      .get('/api/shorturl/fsdfsdss')
-      .end((err, res) => {
-        expect(err).to.be.null;
-        expect(res).to.redirect;
-        done();
-      });
-  });
+
   after(function (done) {
     const cb = () => {
       dbsetup.disconnect(done);

@@ -1,6 +1,4 @@
-// require('./middlewares/parseUrl');
-// require('./middlewares/lookupUrl');
 require('./helpers/exerciseFilter');
-// require('./models/counterUrl');
-// require('./models/shortUrl');
+require('./models/exercise');
+require('./models/user');
 // require('./controllers');

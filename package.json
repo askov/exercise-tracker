@@ -7,6 +7,7 @@
     "dev": "nodemon ./server.js localhost 3000",
     "start": "node server.js",
     "test": "mocha --timeout 10000 --require mocha.env.js",
+    "test-front": "mocha --timeout 10000 test/frontend",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha --timeout 10000 --require mocha.env.js test/index.js"
   },
   "author": "Aleksandr Askov",
@@ -33,6 +34,7 @@
     "chai-json-schema": "^1.5.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.17.5",
+    "puppeteer": "^1.6.0",
     "sinon": "^6.1.0"
   }
 }

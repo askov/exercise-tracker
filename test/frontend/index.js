@@ -42,40 +42,42 @@ describe('Index page puppeteer tests', function () {
   let testUserId;
 
   it('should redirect on correct name submit', async function () {
-    // page.on('response', res => {
-    //   res.status();
-    //   console.log('#res', res);
-    //   // res.text()
-    //   // res.text().then(function (textBody) {
-    //   //   console.log(textBody);
-    //   // })
-    // });
-    // page.on('request', res => {
-    //   console.log('#req', res);
-    // });
-    await page.type('input[name="name"]', 'samuel1', { delay: 100 });
+    await page.type('input[name="name"]', 'sam1', { delay: 100 });
+    await Promise.all([
+      page.click("#js-new-user-form > button"),
+      page.waitForNavigation({ waitUntil: 'networkidle2' }),
+    ]);
 
-    // const [response] = await Promise.all([
-    //   page.click("#js-new-user-form > button"),
-    //   page.waitForNavigation({ waitUntil: 'networkidle2' }),
-    // ]);
-    await page.click('#js-new-user-form > button').then(() => {
-      page.waitForNavigation({ waitUntil: 'networkidle2' });
-    });
-    // const pre = await page.$('pre');
-    // const text = await (await pre.getProperty('innerHTML')).jsonValue();
-    // console.log('PRE', text);
+    const pre = await page.$('pre');
+    const res = await (await pre.getProperty('innerHTML')).jsonValue();
+
+    expect(res.userId).to.exist;
+
+    testUserId = res.userId;
+    console.log('SOME', testUserId);
+
     await page.screenshot({
       path: 'test/frontend/screenshots/user.png',
       clip: { x: 0, y: 0, width: 1024, height: 100 }
     });
+
     expect(page.url()).to.equal(`http://localhost:${config.port}/api/exercise/new-user`);
   });
 
   it('should redirect on correct exercise submit', async function () {
-    // TODO
-    // * Description required
-    // * Duration should be number (mins)
+    await page.type('input[name="userid"]', testUserId, { delay: 100 });
+    await page.type('input[name="description"]', 'good exercise', { delay: 100 });
+    await page.type('input[name="duration"]', 15, { delay: 100 });
+    await Promise.all([
+      page.click("#js-new-exercise-form > button"),
+      page.waitForNavigation({ waitUntil: 'networkidle2' }),
+    ]);
+    await page.screenshot({
+      path: 'test/frontend/screenshots/exercise.png',
+      clip: { x: 0, y: 0, width: 1024, height: 100 }
+    });
+    expect(page.url()).to.equal(`http://localhost:${config.port}/api/exercise/add`);
+
   });
 
 

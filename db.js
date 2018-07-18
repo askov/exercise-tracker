@@ -30,7 +30,7 @@ const dbUri = process.env.DB_TEST_URL || process.env.DB_URL;
   });
 })();
 
-module.exports.connect = function(cb) {
+module.exports.connect = function (cb) {
   mongoose.connect(dbUri).then(() => {
     cb && cb();
   }, err => {
@@ -38,8 +38,14 @@ module.exports.connect = function(cb) {
   });
 };
 
-module.exports.disconnect = function(cb) {
-  mongoose.connection.db.dropDatabase(function() {
+module.exports.drop = function (cb) {
+  mongoose.connection.db.dropDatabase(function () {
+    cb();
+  });
+};
+
+module.exports.disconnect = function (cb) {
+  mongoose.connection.db.dropDatabase(function () {
     mongoose.connection.close(cb);
   });
 };

@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var err = document.querySelector('#js-new-exercise-form .error-container');
     var fields = [
       {
-        input: document.forms[1].userid,
+        input: document.forms[1].userId,
         validator: validateUserId,
       },
       {

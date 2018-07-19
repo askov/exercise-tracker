@@ -31,7 +31,7 @@ html(lang="en")
       form(method="post" action="/api/exercise/add" id="js-new-exercise-form" onsubmit="return newExerciseForm.validate()").standard-form
         label
           span User id #[span(title="Required").asterisk *]
-          input(type="text" placeholder="User ID" name="userid" autocomplete="off")
+          input(type="text" placeholder="User ID" name="userId" autocomplete="off")
         label
           span Description #[span(title="Required").asterisk *]
           input(type="text" placeholder="Exercise description" name="description" autocomplete="off")

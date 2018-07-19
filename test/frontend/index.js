@@ -42,7 +42,7 @@ describe('Index page puppeteer tests', function () {
   let testUserId;
 
   it('should redirect on correct name submit', async function () {
-    await page.type('input[name="name"]', 'sam1', { delay: 100 });
+    await page.type('input[name="name"]', 'sam', { delay: 100 });
     await Promise.all([
       page.click("#js-new-user-form > button"),
       page.waitForNavigation({ waitUntil: 'networkidle2' }),
@@ -51,10 +51,8 @@ describe('Index page puppeteer tests', function () {
     const pre = await page.$('pre');
     const res = await (await pre.getProperty('innerHTML')).jsonValue();
 
-    expect(res.userId).to.exist;
-
-    testUserId = res.userId;
-    console.log('SOME', testUserId);
+    testUserId = JSON.parse(res).userId;
+    expect(testUserId).to.exist;
 
     await page.screenshot({
       path: 'test/frontend/screenshots/user.png',
@@ -65,9 +63,11 @@ describe('Index page puppeteer tests', function () {
   });
 
   it('should redirect on correct exercise submit', async function () {
-    await page.type('input[name="userid"]', testUserId, { delay: 100 });
+
+    await page.type('input[name="userId"]', testUserId, { delay: 100 });
     await page.type('input[name="description"]', 'good exercise', { delay: 100 });
-    await page.type('input[name="duration"]', 15, { delay: 100 });
+    await page.type('input[name="duration"]', '15', { delay: 100 });
+
     await Promise.all([
       page.click("#js-new-exercise-form > button"),
       page.waitForNavigation({ waitUntil: 'networkidle2' }),
@@ -79,6 +79,4 @@ describe('Index page puppeteer tests', function () {
     expect(page.url()).to.equal(`http://localhost:${config.port}/api/exercise/add`);
 
   });
-
-
 });

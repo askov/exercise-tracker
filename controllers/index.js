@@ -38,7 +38,7 @@ router.post('/api/exercise/add', (req, res) => {
     userId: req.body.userId,
     description: req.body.description,
     duration: req.body.duration,
-    date: req.body.date,
+    date: req.body.date || new Date(),
   };
   user.addExercise(obj, cb);
 });
